@@ -1,4 +1,4 @@
-package com.jmreisswitz.caju.model
+package com.jmreisswitz.caju.model.account
 
 class AccountId(val value: String) {
     override fun equals(other: Any?): Boolean {

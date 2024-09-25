@@ -1,5 +1,7 @@
 package com.jmreisswitz.caju.model
 
+import com.jmreisswitz.caju.model.account.*
+import com.jmreisswitz.caju.model.transaction.Transaction
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
@@ -8,16 +10,16 @@ class AccountTest {
 
     @Test
     fun performSimpleTransaction() {
-        val account = Account(AccountId("1"), "John Doe", 1000)
-        val transaction = Transaction(AccountId("1"), 100, "1234", "Amazon")
+        val account = AccountFixture(foodBalance = 1000).build()
+        val transaction = Transaction(account.id, 100, BalanceType.FOOD, "Caju")
         account.execute(transaction)
-        assert(account.balance == 900)
+        assert(account.balance.balanceFor(BalanceType.FOOD) == 900)
     }
 
     @Test
     fun performTransactionWithNegativeAmount() {
-        val account = Account(AccountId("1"), "John Doe", 1000)
-        val transaction = Transaction(AccountId("1"), -100, "1234", "Amazon")
+        val account = AccountFixture().build()
+        val transaction = Transaction(account.id, -100, BalanceType.FOOD, "Caju")
 
         assertThrows<IllegalArgumentException> {
             account.execute(transaction)
@@ -27,8 +29,8 @@ class AccountTest {
 
     @Test
     fun performTransactionWithDifferentAccountId() {
-        val account = Account(AccountId("1"), "John Doe", 1000)
-        val transaction = Transaction(AccountId("2"), 100, "1234", "Amazon")
+        val account = AccountFixture(accountId = AccountId("1")).build()
+        val transaction = Transaction(AccountId("2"), 100, BalanceType.FOOD, "Caju")
 
         assertThrows<IllegalArgumentException> {
             account.execute(transaction)
@@ -37,8 +39,8 @@ class AccountTest {
 
     @Test
     fun performTransactionWithInsufficientFunds() {
-        val account = Account(AccountId("1"), "John Doe", 1000)
-        val transaction = Transaction(AccountId("1"), 1001, "1234", "Amazon")
+        val account = AccountFixture(foodBalance = 100).build()
+        val transaction = Transaction(account.id, 101, BalanceType.FOOD, "Caju")
 
         assertThrows<IllegalArgumentException> {
             account.execute(transaction)
@@ -47,10 +49,10 @@ class AccountTest {
 
     @Test
     fun performTransactionThatResultsOnZeroBalance() {
-        val account = Account(AccountId("1"), "John Doe", 1000)
-        val transaction = Transaction(AccountId("1"), 1000, "1234", "Amazon")
+        val account = AccountFixture(foodBalance = 100).build()
+        val transaction = Transaction(account.id, 100, BalanceType.FOOD, "Caju")
         account.execute(transaction)
-        assert(account.balance == 0)
+        assert(account.balance.balanceFor(BalanceType.FOOD) == 0)
     }
 
 }
