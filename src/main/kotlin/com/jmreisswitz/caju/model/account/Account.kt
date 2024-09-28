@@ -1,6 +1,6 @@
 package com.jmreisswitz.caju.model.account
 
-import com.jmreisswitz.caju.model.transaction.Transaction
+import com.jmreisswitz.caju.model.transaction.AccountTransaction
 
 class Account(
     val id: AccountId,
@@ -8,10 +8,9 @@ class Account(
     var balance: AccountBalance,
     ) {
 
-    fun execute(transaction: Transaction) {
-        require(transaction.totalAmount > 0) { "Transaction total amount must be greater than 0" }
-        require(transaction.accountId == id) { "Transaction account id does not match account id" }
-        balance.subtractFrom(transaction)
+    fun execute(accountTransaction: AccountTransaction) {
+        require(accountTransaction.totalAmount > 0) { "Transaction total amount must be greater than 0" }
+        balance.subtractFrom(accountTransaction)
     }
 
 }
