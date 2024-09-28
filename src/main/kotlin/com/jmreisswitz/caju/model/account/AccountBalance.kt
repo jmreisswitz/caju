@@ -1,28 +1,31 @@
 package com.jmreisswitz.caju.model.account
 
-import com.jmreisswitz.caju.model.transaction.Transaction
+import com.jmreisswitz.caju.model.transaction.AccountTransaction
 
 class AccountBalance(private val balanceMap: MutableMap<BalanceType, Int>) {
     fun balanceFor(balanceType: BalanceType): Int {
         return balanceMap[balanceType] ?: 0
     }
 
-    fun addBalance(balanceType: BalanceType, amount: Int): AccountBalance {
-        balanceMap[balanceType] = balanceFor(balanceType) + amount
-        return AccountBalance(balanceMap)
-    }
-
     fun subtractBalance(balanceType: BalanceType, amount: Int): AccountBalance {
-        require(hasBalance(balanceType, amount)) { "Insufficient funds" }
+        require(hasBalanceFor(balanceType, amount)) { throw NotEnoughBalanceException() }
         balanceMap[balanceType] = balanceFor(balanceType) - amount
         return AccountBalance(balanceMap)
     }
 
-    fun hasBalance(balanceType: BalanceType, amount: Int): Boolean {
+    fun subtractBalance(accountTransaction: AccountTransaction): AccountBalance {
+        return subtractBalance(accountTransaction.balanceType, accountTransaction.totalAmount)
+    }
+
+    fun hasBalanceFor(balanceType: BalanceType, amount: Int): Boolean {
         return balanceFor(balanceType) >= amount
     }
 
-    fun subtractFrom(transaction: Transaction) {
-        subtractBalance(transaction.balanceType, transaction.totalAmount)
+    fun hasBalanceFor(accountTransaction: AccountTransaction): Boolean {
+        return hasBalanceFor(accountTransaction.balanceType, accountTransaction.totalAmount)
+    }
+
+    fun subtractFrom(accountTransaction: AccountTransaction) {
+        subtractBalance(accountTransaction.balanceType, accountTransaction.totalAmount)
     }
 }
