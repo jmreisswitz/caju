@@ -16,15 +16,16 @@ class MerchantAwareTransactionConverterTest {
 
     @Test
     fun `convert to transaction with found balance type from merchant`() {
-        val transactionRequest = TransactionRequestFixture(merchant = "Caju").build()
-        `when`(merchantMapper.mapToBalanceType("Caju")).thenReturn(BalanceType.FOOD)
+        val merchant = "Caju"
+        val transactionRequest = TransactionRequestFixture(merchant = merchant).build()
+        `when`(merchantMapper.mapToBalanceType(merchant)).thenReturn(BalanceType.FOOD)
 
         val transaction = converter.convert(transactionRequest);
 
         assert(transaction.accountId == AccountId("123"))
         assert(transaction.totalAmount == 100)
         assert(transaction.balanceType == BalanceType.FOOD)
-        assert(transaction.merchant == "Caju")
+        assert(transaction.merchant == merchant)
         verify(fallBackConverter, times(0)).convert(transactionRequest)
     }
 
