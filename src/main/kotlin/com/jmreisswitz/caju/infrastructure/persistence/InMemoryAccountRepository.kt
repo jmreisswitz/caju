@@ -17,4 +17,8 @@ class InMemoryAccountRepository(
     override fun findById(id: AccountId): Optional<Account> {
         return Optional.ofNullable(accounts[id])
     }
+
+    override fun all(): List<Account> {
+        return accounts.values.toList()
+    }
 }
