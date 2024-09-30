@@ -10,10 +10,10 @@ class MerchantName(
 
         other as MerchantName
 
-        return value == other.value
+        return value.uppercase() == other.value.uppercase()
     }
 
     override fun hashCode(): Int {
-        return value.hashCode()
+        return value.uppercase().hashCode()
     }
 }
