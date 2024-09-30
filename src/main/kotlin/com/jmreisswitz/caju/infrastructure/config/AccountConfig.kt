@@ -13,32 +13,37 @@ class AccountConfig {
         return InMemoryAccountRepository(accounts = defaultAccountsMap())
     }
 
-    private fun defaultAccountsMap(): MutableMap<AccountId, Account> {
-        return mutableMapOf(
-            AccountId("1") to Account(AccountId("1"), "100 em todos", AccountBalance(
+    fun defaultAccountsMap(): MutableMap<AccountId, Account> {
+        val accounts = listOf(
+            Account(AccountId("1"), "100 em todos", AccountBalance(
                 mutableMapOf(
                     BalanceType.FOOD to 10000,
                     BalanceType.MEAL to 10000,
                     BalanceType.CASH to 10000
                 )
             )),
-            AccountId("2") to Account(AccountId("2"), "so meal", AccountBalance(
+            Account(AccountId("2"), "so meal", AccountBalance(
                 mutableMapOf(
                     BalanceType.MEAL to 10000,
                 )
             )),
-            AccountId("3") to Account(AccountId("3"), "so cash", AccountBalance(
+            Account(AccountId("3"), "so cash", AccountBalance(
                 mutableMapOf(
                     BalanceType.CASH to 10000,
                 )
             )),
-            AccountId("4") to Account(AccountId("4"), "Ricão", AccountBalance(
+            Account(AccountId("4"), "Ricão", AccountBalance(
                 mutableMapOf(
                     BalanceType.FOOD to 9999999,
                     BalanceType.MEAL to 9999999,
                     BalanceType.CASH to 9999999
                 )
             ))
-            )
+        )
+        return accounts.associateBy { it.id }.toMutableMap()
+    }
+
+    companion object {
+        fun defaultAccountsMapCopy() = AccountConfig().defaultAccountsMap()
     }
 }
