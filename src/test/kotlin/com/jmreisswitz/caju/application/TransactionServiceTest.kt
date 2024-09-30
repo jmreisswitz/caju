@@ -14,7 +14,6 @@ import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 import java.util.*
 import kotlin.test.Test
-import kotlin.test.assertFailsWith
 
 class TransactionServiceTest {
 

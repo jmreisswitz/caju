@@ -1,6 +1,6 @@
 package com.jmreisswitz.caju.infrastructure.controller
 
-import com.jmreisswitz.caju.application.TransactionService
+import com.jmreisswitz.caju.application.TransactionServiceWithLock
 import com.jmreisswitz.caju.infrastructure.controller.requests.TransactionRequest
 import com.jmreisswitz.caju.model.authorizer.AuthorizationStatus
 import com.jmreisswitz.caju.model.authorizer.TransactionAuthorizerResult
@@ -22,7 +22,7 @@ class TransactionControllerTest {
     private lateinit var mockMvc: MockMvc
 
     @MockBean
-    private lateinit var transactionService: TransactionService
+    private lateinit var transactionService: TransactionServiceWithLock
 
     @Test
     fun `should return 200 and code 00 when transaction is authorized`() {

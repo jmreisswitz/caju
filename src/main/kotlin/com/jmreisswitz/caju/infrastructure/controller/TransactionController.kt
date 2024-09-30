@@ -1,6 +1,6 @@
 package com.jmreisswitz.caju.infrastructure.controller
 
-import com.jmreisswitz.caju.application.TransactionService
+import com.jmreisswitz.caju.application.TransactionServiceWithLock
 import com.jmreisswitz.caju.infrastructure.controller.requests.TransactionRequest
 import com.jmreisswitz.caju.infrastructure.controller.responses.TransactionResponse
 import org.springframework.http.ResponseEntity
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/transaction")
 class TransactionController(
-    private val transactionService: TransactionService
+    private val transactionService: TransactionServiceWithLock
 ) {
 
     @PostMapping("/")
