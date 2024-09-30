@@ -33,22 +33,23 @@ class TransactionServiceTest {
             TransactionAuthorizerResult(AuthorizationStatus.APPROVED)
         `when`(transactionAuthorizer.authorize(transaction, account)).thenReturn(transactionResult)
 
-        val result = service.authorizeTransaction(transaction)
+        val result = service.authorize(transaction)
 
         assert(result == transactionResult)
         verify(accountRepository).save(account)
     }
 
     @Test
-    fun `throw account not found exception when account is not found`() {
+    fun `return error result when account is not found`() {
         val transaction = mock<Transaction>()
         val accountId = mock<AccountId>()
         `when`(transaction.accountId).thenReturn(accountId)
         `when`(accountRepository.findById(accountId)).thenReturn(Optional.empty())
 
-        assertFailsWith<AccountNotFoundException> {
-            service.authorizeTransaction(transaction)
-        }
+
+        val result = service.authorize(transaction)
+
+        assert(result.authorizationStatus == AuthorizationStatus.ERROR)
     }
 
     @Test
@@ -62,7 +63,7 @@ class TransactionServiceTest {
             TransactionAuthorizerResult(AuthorizationStatus.DENIED)
         `when`(transactionAuthorizer.authorize(transaction, account)).thenReturn(transactionResult)
 
-        val result = service.authorizeTransaction(transaction)
+        val result = service.authorize(transaction)
 
         assert(result == transactionResult)
         verify(accountRepository, times(0)).save(account)

@@ -16,7 +16,15 @@ class TransactionService(
 ) {
 
     @Transactional
-    fun authorizeTransaction(transaction: Transaction): TransactionAuthorizerResult {
+    fun authorize(transaction: Transaction): TransactionAuthorizerResult {
+        return try {
+            tryToAuthorize(transaction)
+        } catch (e: AccountNotFoundException) {
+            TransactionAuthorizerResult(AuthorizationStatus.ERROR)
+        }
+    }
+
+    private fun tryToAuthorize(transaction: Transaction): TransactionAuthorizerResult {
         val account = accountRepository.findById(transaction.accountId)
             .orElseThrow { AccountNotFoundException(transaction.accountId) }
         val result = transactionAuthorizer.authorize(transaction, account)
