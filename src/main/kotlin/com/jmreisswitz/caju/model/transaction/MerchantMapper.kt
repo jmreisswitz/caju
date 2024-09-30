@@ -4,11 +4,11 @@ import com.jmreisswitz.caju.model.account.BalanceType
 
 class MerchantMapper(
     private val merchantNameExtractor: MerchantNameExtractor,
-    private val map: Map<MerchantName, BalanceType>
+    val merchantsMap: Map<MerchantName, BalanceType>
 ) {
 
     fun mapToBalanceType(merchant: Merchant): BalanceType {
         val merchantName = merchantNameExtractor.extractFrom(merchant)
-        return map[merchantName] ?: throw MerchantNotFoundException(merchant.value)
+        return merchantsMap[merchantName] ?: throw MerchantNotFoundException(merchant.value)
     }
 }
