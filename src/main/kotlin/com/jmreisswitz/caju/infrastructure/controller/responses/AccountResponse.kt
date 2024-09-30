@@ -11,7 +11,7 @@ data class AccountResponse(
     companion object {
         fun from(account: Account): AccountResponse {
             return AccountResponse(
-                account.id.toString(),
+                account.id.value,
                 account.name,
                 balancesFrom(account)
             )

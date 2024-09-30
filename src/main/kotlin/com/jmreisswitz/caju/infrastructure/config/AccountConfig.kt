@@ -22,17 +22,17 @@ class AccountConfig {
                     BalanceType.CASH to 10000
                 )
             )),
-            AccountId("2") to Account(AccountId("meal"), "so meal", AccountBalance(
+            AccountId("2") to Account(AccountId("2"), "so meal", AccountBalance(
                 mutableMapOf(
                     BalanceType.MEAL to 10000,
                 )
             )),
-            AccountId("3") to Account(AccountId("meal"), "so cash", AccountBalance(
+            AccountId("3") to Account(AccountId("3"), "so cash", AccountBalance(
                 mutableMapOf(
                     BalanceType.CASH to 10000,
                 )
             )),
-            AccountId("4") to Account(AccountId("meal"), "Ricão", AccountBalance(
+            AccountId("4") to Account(AccountId("4"), "Ricão", AccountBalance(
                 mutableMapOf(
                     BalanceType.FOOD to 9999999,
                     BalanceType.MEAL to 9999999,
