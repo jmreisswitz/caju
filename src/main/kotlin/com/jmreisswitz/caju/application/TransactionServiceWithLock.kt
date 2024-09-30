@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit
 @Service
 class TransactionServiceWithLock(
     private val transactionService: TransactionService,
-    private val distributedLock: DistributedLock
+    private val distributedLock: RedisDistributedLock
 ) {
 
     @Transactional
